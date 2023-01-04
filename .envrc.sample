@@ -1,3 +1,5 @@
 export DB_USER=postgres
 export DB_PASSWORD=postgres
 export DB_NAME="goose-test"
+export GOOSE_DRIVER=postgres
+export GOOSE_DBSTRING="host=localhost user=postgres password=postgres dbname=goose-test sslmode=disable"
