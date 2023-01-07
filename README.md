@@ -19,8 +19,19 @@ docker compose up
 - goose 動かす
 
 ```
+# migration ファイルを置くディレクトリ作成
+➜  goose-test git:(main) ✗ mkdir -p db/migration
+
+# migrationファイル作成
+➜  goose-test git:(main) ✗ goose -dir db/migration create craete_users_table sql
+2023/01/04 22:05:53 Created new file: 20230104220553_craete_users_table.sql
+➜  goose-test git:(main) ✗ goose -dir db/migration create rename_root sql
+2023/01/04 22:07:48 Created new file: 20230104220748_rename_root.sql
+➜  goose-test git:(main) ✗ goose -dir db/migration create no_transaction sql
+2023/01/04 22:08:51 Created new file: 20230104220851_no_transaction.sql
+
 # 作成した migration ファイルの確認
-➜  goose-test git:(main) ✗ goose status
+➜  goose-test git:(main) ✗ goose -dir db/migration status
 2023/01/04 22:38:40     Applied At                  Migration
 2023/01/04 22:38:40     =======================================
 2023/01/04 22:38:40     Pending                  -- 20230104220553_craete_users_table.sql
@@ -29,7 +40,7 @@ docker compose up
 
 # 実行
 # pending になっているものがすべて実行される
-➜  goose-test git:(main) ✗ goose up
+➜  goose-test git:(main) ✗ goose -dir db/migration up
 2023/01/07 10:34:38 OK    20230104220553_craete_users_table.sql
 2023/01/07 10:34:38 OK    20230104220748_rename_root.sql
 2023/01/07 10:34:38 OK    20230104220851_no_transaction.sql
@@ -37,9 +48,9 @@ docker compose up
 
 # 戻す
 # 戻すと一番最後に実行されたものから一つずつもどる
-➜  goose-test git:(main) ✗ goose down
+➜  goose-test git:(main) ✗ goose -dir db/migration down
 2023/01/07 10:37:56 OK    20230104220851_no_transaction.sql
-➜  goose-test git:(main) ✗ goose status
+➜  goose-test git:(main) ✗ goose -dir db/migration status
 2023/01/07 10:38:02     Applied At                  Migration
 2023/01/07 10:38:02     =======================================
 2023/01/07 10:38:02     Sat Jan  7 01:34:38 2023 -- 20230104220553_craete_users_table.sql
@@ -48,7 +59,7 @@ docker compose up
 
 # 再実行
 # 未実行のもののみ実行される
-➜  goose-test git:(main) ✗ goose up
+➜  goose-test git:(main) ✗ goose -dir db/migration up
 2023/01/07 10:38:35 OK    20230104220851_no_transaction.sql
 2023/01/07 10:38:35 goose: no migrations to run. current version: 20230104220851
 ```
